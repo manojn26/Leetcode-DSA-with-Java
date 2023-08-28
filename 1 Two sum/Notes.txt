@@ -1,0 +1,102 @@
+Problem Tag : Array & Hashtable
+
+Problem Statement :-
+
+Given an array of integers "nums" and an integer "target", return indices of the two numbers such that they add up to "target".
+
+You may assume that each input would have exactly one solution, and you may not use the same element twice.
+
+You can return the answer in any order.
+
+Example 1 : 
+Input: nums = [2,7,11,15], target = 9
+Output: [0,1]
+Explanation: Because nums[0] + nums[1] == 9, we return [0, 1].
+
+Example 2 :
+Input: nums = [3,2,4], target = 6
+Output: [1,2]
+
+
+My Approach for the Solution :-
+----------------------------------
+-> using two loops to find the target sum.
+
+Code :
+-------
+import java.util.Arrays;
+
+public class Solution {
+    public int[] twoSum(int[] arr, int target) {
+
+        // loop through the array to length-1
+        for (int i = 0; i < arr.length; i++) {
+            // again loop through i+1 to length -1
+            for (int j = i + 1; j < arr.length; j++) {
+                // check if the both index values are equals to the target
+                if (arr[i] + arr[j] == target) {
+                    // if yes then return the indexes as new integer array
+                    return new int[] { i, j };
+                }
+            }
+        }
+
+        return new int[] {};
+    }
+
+    public static void main(String[] args) {
+        int[] arr = { 2, 7, 11, 15 };
+        int target = 9;
+        System.out.println(Arrays.toString(new Solution().twoSum(arr, target)));
+
+    }
+}
+
+NOTE : The  approach has a time complexity of O(n^2).
+
+
+
+Efficient Approach using Hashtable :-
+--------------------------------------
+1 Create a empty Hashtable to store the elements and their index.
+2 For each element nums[i], calculate the complement by subtracting it from the target: complement = target - nums[i]
+3 if the complement exists in the Hashtable we have found a solution
+4 If the complement does not exist in the hash table, add the current element nums[i] to the hash table with its index as the value.
+5 Repeat steps 2-4 until we find a solution or reach the end of the array.
+6 If no solution is found, return an empty array
+
+Code :
+------
+import java.util.Arrays;
+import java.util.Hashtable;
+
+public class Solution {
+    public int[] twoSum(int[] arr, int target) {
+        // Create a Hashtable
+        Hashtable<Integer, Integer> ht = new Hashtable<Integer, Integer>();
+
+        for (int i = 0; i < arr.length; i++) {
+            int complement = target - arr[i];
+
+            if (ht.containsKey(complement) && ht.get(complement) != i) {
+                return new int[] { i, ht.get(complement) };
+            } else {
+                ht.put(arr[i], i);
+            }
+
+        }
+
+        return new int[] {};
+    }
+
+    public static void main(String[] args) {
+        int[] arr = { 2, 7, 11, 15 };
+        int target = 9;
+        System.out.println(Arrays.toString(new Solution().twoSum(arr, target)));
+
+    }
+}
+
+
+
+
